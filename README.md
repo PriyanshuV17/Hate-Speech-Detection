@@ -30,31 +30,31 @@ Features
 Repository Structure
 -------------------------------------------------------------
 data/
- ├── labeled_data.csv               -> Cleaned & labeled dataset
- └── processed/                     -> Preprocessed training/test data
+  |—— labeled_data.csv -> Cleaned & labeled_dataset
+  |—— processed/ -> Preprocessed training/test data
 
 notebooks/
- ├── 01_data_exploration.ipynb
- ├── 02_preprocessing.ipynb
- ├── 03_model_training.ipynb
- └── 04_evaluation.ipynb
+  |—— 01_data_exploration.ipynb
+  |—— 02_preprocessing.ipynb
+  |—— 03_model_training.ipynb
+  |—— 04_evaluation.ipynb
 
 src/
- ├── preprocessing/                 -> Text cleaning and preprocessing scripts
- ├── models/                        -> Training and evaluation scripts
- ├── api/                           -> Backend API scripts (Flask / FastAPI)
- ├── utils/                         -> Helper and utility functions
- └── __init__.py
+  |—— preprocessing/ -> Text cleaning and preprocessing scripts
+  |—— models/ -> Training and evaluation scripts
+  |—— api/ -> Backend API scripts (Flask / FastAPI)
+  |—— utils/ -> Helper and utility functions
+  |—— init.py
 
 saved_models/
- ├── tfidf_logreg_model.pkl
- ├── tfidf_vectorizer.pkl
- └── bert_model/ (optional for future transformer models)
+  |—— tfidf_logreg_model.pki
+  |—— tfidf_vectorizer.pki
+  |—— bert_model/ (optional for future transformer models)
 
-config.yaml                         -> Configuration file
-requirements.txt                    -> Required dependencies
-main.py                             -> Main entry script
-.gitignore                          -> Ignore unnecessary files
+config.yaml -> Configuration file
+requirements.txt -> Required dependencies
+main.py -> Main entry script
+.gitignore -> ignore unnecessary files
 
 -------------------------------------------------------------
 Model Workflow
