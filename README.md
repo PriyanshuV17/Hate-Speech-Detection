@@ -1,6 +1,5 @@
-======================================
-                HATE SPEECH DETECTION PROJECT
-=======================================
+==**HATE SPEECH DETECTION PROJECT**==
+
 
 Project Overview
 ----------------
