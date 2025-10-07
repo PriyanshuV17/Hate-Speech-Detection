@@ -29,96 +29,32 @@ Features
 -------------------------------------------------------------
 Repository Structure
 -------------------------------------------------------------
+data/
+  |—— labeled_data.csv -> Cleaned & labeled_dataset
+  |—— processed/ -> Preprocessed training/test data
 
-**data/**
-- `labeled_data.csv` - Cleaned & labeled dataset
-- `processed/` - Preprocessed training/test data
+notebooks/
+  |—— 01_data_exploration.ipynb
+  |—— 02_preprocessing.ipynb
+  |—— 03_model_training.ipynb
+  |—— 04_evaluation.ipynb
 
-**notebooks/**
-- `01_data_exploration.ipynb`
-- `02_preprocessing.ipynb`
-- `03_model_training.ipynb`
-- `04_evaluation.ipynb`
+src/
+  |—— preprocessing/ -> Text cleaning and preprocessing scripts
+  |—— models/ -> Training and evaluation scripts
+  |—— api/ -> Backend API scripts (Flask / FastAPI)
+  |—— utils/ -> Helper and utility functions
+  |—— init.py
 
-**src/**
-- `preprocessing/` - Text cleaning and preprocessing scripts
-- `models/` - Training and evaluation scripts
-- `api/` - Backend API scripts (Flask / FastAPI)
-- `utils/` - Helper and utility functions
-- `__init__.py`
+saved_models/
+  |—— tfidf_logreg_model.pki
+  |—— tfidf_vectorizer.pki
+  |—— bert_model/ (optional for future transformer models)
 
-**saved_models/**
-- `tfidf_logreg_model.pkl`
-- `tfidf_vectorizer.pkl`
-- `bert_model/` - Optional for future transformer models
-
-**Configuration Files**
-- `config.yaml` - Configuration file
-- `requirements.txt` - Required dependencies
-- `main.py` - Main entry script
-- `.gitignore` - Ignore unnecessary files
-
----
-
-## Model Workflow
-
-### 1. Data Preprocessing
-- Tokenization, stopword removal, text normalization
-- Data cleaning and validation
-- Feature engineering
-
-### 2. Feature Extraction
-- TF-IDF vectorization
-- N-gram features
-- Text vectorization
-
-### 3. Model Training
-- Logistic Regression classifier
-- Model validation and testing
-- Performance evaluation
-- Model serialization
--------------------------------------------------------------
-Model Workflow
--------------------------------------------------------------
-1. **Data Preprocessing**  
-   - Tokenization, stopword removal, text normalization.
-
-2. **Feature Extraction**  
-   - TF-IDF vectorization.
-
-3. **Model Training**  
-   - Logistic Regression / SVM (initial version).
-   - Scalable for Transformer models (BERT, RoBERTa).
-
-4. **Evaluation**  
-   - Accuracy, precision, recall, F1-score, confusion matrix.
-
-5. **Deployment**  
-   - API hosted on Render.
-   - Web interface built using Gradio and hosted on Hugging Face.
-
--------------------------------------------------------------
-Getting Started
--------------------------------------------------------------
-1. Clone the repository:
-   git clone https://github.com/PriyanshuV17/Hate-Speech-Detection
-
-2. Navigate to the folder:
-   cd Hate-Speech-Detection
-
-3. Install dependencies:
-   pip install -r requirements.txt
-
-4. Run the API locally:
-   python src/api/app.py
-
-5. Test the API:
-   Send a POST request to:
-   http://localhost:8000/predict
-   Example JSON payload:
-   {
-       "text": "Your input sentence here"
-   }
+config.yaml -> Configuration file
+requirements.txt -> Required dependencies
+main.py -> Main entry script
+.gitignore -> ignore unnecessary files
 
 -------------------------------------------------------------
 Using the Deployed API
