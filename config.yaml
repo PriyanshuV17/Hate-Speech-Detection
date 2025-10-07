@@ -1,32 +1,39 @@
-# Project configuration file
-
 paths:
   raw_data: "data/labeled_data.csv"
 
-  processed_data:
-    dir: "data/processed"
-    train_features: "data/processed/X_train_bal.npy"
-    train_labels: "data/processed/y_train_bal.npy"
-    test_features: "data/processed/X_test.npy"
-    test_labels: "data/processed/y_test.npy"
-    tfidf_vectorizer: "saved_models/tfidf_vectorizer.pkl"
-    cleaned_excel: "data/processed/labeled_data_1.xlsx"
+processed_data:
+  train_features: "data/processed/X_train_bal.npy"
+  train_labels: "data/processed/y_train_bal.npy"
+  test_features: "data/processed/X_test.npy"
+  test_labels: "data/processed/y_test.npy"
+  tfidf_vectorizer: "data/processed/tfidf_vectorizer.pkl"
+  cleaned_excel: "data/processed/cleaned_dataset.xlsx"
 
-  saved_models:
-    dir: "saved_models"
-    baseline_model: "saved_models/tfidf_logreg_model.pkl"
-    confusion_matrix: "saved_models/confusion_matrix.png"
+saved_models:
+  baseline_model: "saved_models/tfidf_logreg_model.pkl"
+  metrics_report: "saved_models/metrics_report.json"
+  confusion_matrix: "saved_models/confusion_matrix.png"
 
 training:
   test_size: 0.2
   random_seed: 42
-  tfidf_max_features: 5000
-  tfidf_stop_words: "english"
   smote_random_seed: 42
+  tfidf_max_features: 5000
 
   logistic_regression:
-    class_weight: "balanced"
     max_iter: 1000
+    C: 1.0
+    solver: "lbfgs"
+    class_weight: "balanced"
 
-logging:
-  level: "INFO"
+labels:
+  0: "bullying"
+  1: "non_bullying"
+  2: "offensive"
+  3: "racist"
+  4: "sexist"
+  5: "abusive"
+  6: "clean"
+  7: "no_hate"
+  8: "harassing"
+  9: "personal_attacks"
