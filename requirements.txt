@@ -1,6 +1,7 @@
 gradio
-joblib
 scikit-learn
-numpy
-scipy
 pandas
+numpy
+imbalanced-learn
+matplotlib
+joblib
