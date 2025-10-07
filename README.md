@@ -29,7 +29,7 @@ Repository Structure
 ```
 
 ├── data/
-│   ├── labeled_data.csv              # original dataset
+│   ├── labeled_data.csv              # original dataset                  
 │   └── processed/                     # cleaned & processed versions
 │       ├── X_train_bal.npy
 │       ├── y_train_bal.npy
