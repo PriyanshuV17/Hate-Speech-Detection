@@ -1,28 +1,33 @@
-# src/models/train_tfidf_model.py
-
+# ==========================
+# Hate Speech Detection: Train TF-IDF + Logistic Regression
+# ==========================
+import sys
 import os
-import joblib
 import numpy as np
+import joblib
+import json
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
+
+# 🔧 Fix import path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from src.utils.config_loader import ConfigLoader
-from src.utils.plotting import plot_confusion_matrix
 
-# === Load config ===
+# --------------------------
+# 1. Load Config
+# --------------------------
 config = ConfigLoader()
 processed = config.get_processed_data_paths()
 models = config.get_saved_model_paths()
 training = config.get_training_params()
-label_map = config.get_labels()
-label_names = list(label_map.values())
 
-# Ensure model save directory exists
-models_dir = os.path.dirname(models["baseline_model"])
-os.makedirs(models_dir, exist_ok=True)
-
-# === Load data ===
+# --------------------------
+# 2. Load Preprocessed Data
+# --------------------------
 print("📥 Loading preprocessed data...")
+
 X_train = np.load(processed["train_features"])
 y_train = np.load(processed["train_labels"])
 X_test = np.load(processed["test_features"])
@@ -31,45 +36,66 @@ y_test = np.load(processed["test_labels"])
 print("✅ Data loaded successfully!")
 print(f"Train shape: {X_train.shape}, Test shape: {X_test.shape}")
 
-# === Load vectorizer ===
-vectorizer = joblib.load(processed["tfidf_vectorizer"])
+# --------------------------
+# 3. Load TF-IDF Vectorizer
+# --------------------------
+tfidf = joblib.load(processed["tfidf_vectorizer"])
 print("✅ TF-IDF vectorizer loaded successfully!")
 
-# === Train model ===
+# --------------------------
+# 4. Train Model
+# --------------------------
 print("\n🚀 Training Logistic Regression model...")
-model = LogisticRegression(
-    max_iter=training["logistic_regression"]["max_iter"],
-    class_weight=training["logistic_regression"]["class_weight"],
-    n_jobs=-1
+
+logreg_config = training["logistic_regression"]
+clf = LogisticRegression(
+    max_iter=logreg_config["max_iter"],
+    C=logreg_config["C"],
+    solver=logreg_config["solver"],
+    class_weight=logreg_config["class_weight"]
 )
-model.fit(X_train, y_train)
+clf.fit(X_train, y_train)
+
 print("✅ Model training completed successfully!")
 
-# === Evaluate model ===
+# --------------------------
+# 5. Evaluate Model
+# --------------------------
 print("\n📊 Evaluating model performance...")
-y_pred = model.predict(X_test)
 
-accuracy = accuracy_score(y_test, y_pred)
-print(f"\n🎯 Accuracy: {accuracy:.4f}\n")
+y_pred = clf.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred, output_dict=False)
+print(f"\n🎯 Accuracy: {acc:.4f}")
+print("\n📄 Classification Report:")
+print(report)
 
-print("📄 Classification Report:")
-print(classification_report(
-    y_test,
-    y_pred,
-    target_names=label_names
-))
+# --------------------------
+# 6. Save Outputs
+# --------------------------
+models_dir = os.path.dirname(models["baseline_model"])
+os.makedirs(models_dir, exist_ok=True)
 
-# === Confusion Matrix ===
+# Save model
+joblib.dump(clf, models["baseline_model"])
+
+# Save metrics report
+metrics = {
+    "accuracy": acc,
+    "classification_report": classification_report(y_test, y_pred, output_dict=True)
+}
+with open(models["metrics_report"], "w", encoding="utf-8") as f:
+    json.dump(metrics, f, indent=2)
+
+# Save confusion matrix
 cm = confusion_matrix(y_test, y_pred)
-plot_confusion_matrix(
-    cm,
-    labels=label_names,
-    title="Hate Speech Detection - Confusion Matrix",
-    save_path=models["confusion_matrix"]
-)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+disp.plot(cmap="Blues", xticks_rotation=45)
+plt.tight_layout()
+plt.savefig(models["confusion_matrix"])
+plt.close()
 
-# === Save trained model ===
-joblib.dump(model, models["baseline_model"])
-print(f"💾 Model saved to: {models['baseline_model']}")
-
-print("\n✅ Training completed successfully!")
+print("\n💾 Model saved to:", models["baseline_model"])
+print("📊 Metrics saved to:", models["metrics_report"])
+print("📉 Confusion matrix saved to:", models["confusion_matrix"])
+print("\n✅ Training complete!")
