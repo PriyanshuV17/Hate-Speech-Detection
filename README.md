@@ -1,167 +1,167 @@
-Here’s a draft **README.txt** (or you can rename it to `README.md` if you prefer markdown) for your project. Feel free to tweak formatting, sections, or wording as needed.
+=============================================================
+                HATE SPEECH DETECTION PROJECT
+=============================================================
 
----
+Project Overview
+----------------
+This project focuses on detecting hate speech and offensive content in text data using Natural Language Processing (NLP) and Machine Learning models.  
+It classifies input text into categories such as hate, offensive, bullying, clean, etc.  
 
-```
-Hate Speech Detection / Classifier
-==================================
+The system is designed for multilingual support and can be extended for detailed sub-categorization of hate types in future work.
 
-A machine learning / NLP project to detect hate speech from text inputs.  
-The project is deployed as a web app, and also provides a REST API for programmatic use.
+-------------------------------------------------------------
+Live Deployments
+-------------------------------------------------------------
+🔹 Web App (Deployed on Hugging Face Spaces):  
+   https://huggingface.co/spaces/PriyanshuV17/Hate_Speech_Classifier  
 
-Live Demo & API
----------------
-- Web app (Hugging Face Spaces):  
-  https://huggingface.co/spaces/PriyanshuV17/Hate_Speech_Classifier  
+🔹 API Endpoint (Deployed on Render):  
+   https://hate-speech-detection-1uqd.onrender.com  
 
-- REST API endpoint:  
-  https://hate-speech-detection-1uqd.onrender.com  
-
+-------------------------------------------------------------
 Features
---------
-- Input arbitrary text; the model predicts whether it contains hate speech or not (and optionally categories).  
-- Backend supports both traditional models (e.g. TF-IDF + Logistic Regression / SVM) and future extension to transformer-based models (BERT / RoBERTa).  
-- Preprocessing, cleaning, and evaluation modules included.  
-- Modular code structure for easy experimentation, extension, or integration into larger systems.
+-------------------------------------------------------------
+- Detects and classifies hate speech or offensive language in comments, tweets, or text data.
+- Supports multiple languages (future versions planned for multilingual expansion).
+- Clean modular architecture for easy training, fine-tuning, and deployment.
+- REST API support for integration with other systems.
+- Deployed live as a web-based interface (Gradio on Hugging Face).
 
+-------------------------------------------------------------
 Repository Structure
---------------------
-```
+-------------------------------------------------------------
+data/
+ ├── labeled_data.csv               -> Cleaned & labeled dataset
+ └── processed/                     -> Preprocessed training/test data
 
-├── data/
-│   ├── labeled_data.csv              # original dataset                  
-│   └── processed/                     # cleaned & processed versions
-│       ├── X_train_bal.npy
-│       ├── y_train_bal.npy
-│       ├── X_test.npy
-│       ├── y_test.npy
-│       └── tfidf_vectorizer.pkl
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_preprocessing.ipynb
-│   ├── 03_model_training.ipynb
-│   └── 04_transformer_finetuning.ipynb   # for future extension
-├── src/
-│   ├── preprocessing/
-│   │   ├── preprocess_data.py
-│   │   └── **init**.py
-│   ├── models/
-│   │   ├── train_tfidf_model.py
-│   │   ├── train_bert_model.py
-│   │   └── evaluate_model.py
-│   ├── api/
-│   │   ├── app.py
-│   │   └── **init**.py
-│   ├── utils/
-│   │   ├── text_cleaning.py
-│   │   └── helper.py
-│   └── **init**.py
-├── saved_models/
-│   ├── tfidf_logreg_model.pkl
-│   └── tfidf_vectorizer.pkl
-│   └── bert_model/  # (if transformer models are used)
-├── config.yaml       # configuration for paths, hyperparameters, etc.
-├── main.py           # entry point (training / inference)
-├── requirements.txt  # dependencies
-└── .gitignore
+notebooks/
+ ├── 01_data_exploration.ipynb
+ ├── 02_preprocessing.ipynb
+ ├── 03_model_training.ipynb
+ └── 04_evaluation.ipynb
 
-````
+src/
+ ├── preprocessing/                 -> Text cleaning and preprocessing scripts
+ ├── models/                        -> Training and evaluation scripts
+ ├── api/                           -> Backend API scripts (Flask / FastAPI)
+ ├── utils/                         -> Helper and utility functions
+ └── __init__.py
 
-Key Components
---------------
-- **Data preprocessing**: text cleaning, tokenization, removing stopwords, etc.  
-- **Model training**: TF-IDF + Logistic Regression / SVM (current stable models).  
-- **Transformer fine-tuning**: scaffold for using BERT / RoBERTa in future.  
-- **Evaluation**: accuracy, precision, recall, F1, confusion matrix.  
-- **API / Web App**: Flask / FastAPI backend serving predictions; integrated into a web interface via Gradio (or similar) in the demo.
+saved_models/
+ ├── tfidf_logreg_model.pkl
+ ├── tfidf_vectorizer.pkl
+ └── bert_model/ (optional for future transformer models)
 
-Getting Started / Usage
------------------------
-### Prerequisites  
-- Python 3.7+  
-- Install dependencies:  
-  ```bash
-  pip install -r requirements.txt
-````
+config.yaml                         -> Configuration file
+requirements.txt                    -> Required dependencies
+main.py                             -> Main entry script
+.gitignore                          -> Ignore unnecessary files
 
-### Running Locally (Development)
+-------------------------------------------------------------
+Model Workflow
+-------------------------------------------------------------
+1. **Data Preprocessing**  
+   - Tokenization, stopword removal, text normalization.
 
-1. Prepare (or preprocess) dataset:
+2. **Feature Extraction**  
+   - TF-IDF vectorization.
 
-   ```bash
-   python src/preprocessing/preprocess_data.py
-   ```
-2. Train model (TF-IDF + Logistic Regression, for instance):
+3. **Model Training**  
+   - Logistic Regression / SVM (initial version).
+   - Scalable for Transformer models (BERT, RoBERTa).
 
-   ```bash
-   python src/models/train_tfidf_model.py
-   ```
-3. Evaluate the model:
+4. **Evaluation**  
+   - Accuracy, precision, recall, F1-score, confusion matrix.
 
-   ```bash
-   python src/models/evaluate_model.py
-   ```
-4. Run the API / app:
+5. **Deployment**  
+   - API hosted on Render.
+   - Web interface built using Gradio and hosted on Hugging Face.
 
-   ```bash
+-------------------------------------------------------------
+Getting Started
+-------------------------------------------------------------
+1. Clone the repository:
+   git clone https://github.com/PriyanshuV17/Hate-Speech-Detection
+
+2. Navigate to the folder:
+   cd Hate-Speech-Detection
+
+3. Install dependencies:
+   pip install -r requirements.txt
+
+4. Run the API locally:
    python src/api/app.py
-   ```
 
-   The app will listen at a specified port (e.g. `http://localhost:8000`) – you can then send text to it for predictions.
+5. Test the API:
+   Send a POST request to:
+   http://localhost:8000/predict
+   Example JSON payload:
+   {
+       "text": "Your input sentence here"
+   }
 
-### Using the API
+-------------------------------------------------------------
+Using the Deployed API
+-------------------------------------------------------------
+Endpoint: https://hate-speech-detection-1uqd.onrender.com/predict  
+Method: POST  
+Content-Type: application/json  
 
-Send POST requests with JSON payload. For example:
-
-```json
-POST /predict
+Example:
 {
-  "text": "Your input text here"
+    "text": "I hate this!"
 }
-```
 
-API returns JSON with prediction, labels, and confidence scores.
+Response Example:
+{
+    "prediction": "Hate Speech",
+    "confidence": 0.94
+}
 
-You can also use the deployed API endpoint:
-`https://hate-speech-detection-1uqd.onrender.com`
+-------------------------------------------------------------
+Evaluation Metrics
+-------------------------------------------------------------
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- Confusion Matrix
+- ROC/AUC (optional)
 
-## Evaluation & Metrics
+-------------------------------------------------------------
+Future Enhancements
+-------------------------------------------------------------
+- Multilingual hate speech detection (Italian, Spanish, Punjabi, Tamil, Telugu)
+- Transformer-based fine-tuning (BERT / RoBERTa)
+- Live data analysis from social media feeds
+- Advanced dashboard visualization
+- Integration with moderation tools and APIs
 
-* Classification metrics: accuracy, precision, recall, F1-score
-* Confusion matrix
-* (Optional) ROC / AUC, class-wise breakdowns
-* You can view evaluation results in the notebooks or via the evaluation scripts.
+-------------------------------------------------------------
+Tech Stack
+-------------------------------------------------------------
+- Python
+- Scikit-learn
+- Pandas, NumPy
+- Flask / FastAPI
+- Gradio
+- Hugging Face Spaces
+- Render (API Hosting)
 
-## Extending / Customizing
+-------------------------------------------------------------
+Author
+-------------------------------------------------------------
+Developed by: **Priyanshu Verma**  
+GitHub: https://github.com/PriyanshuV17/Hate-Speech-Detection  
+Hugging Face App: https://huggingface.co/spaces/PriyanshuV17/Hate_Speech_Classifier  
+API: https://hate-speech-detection-1uqd.onrender.com  
 
-* Add more models (e.g. transformer models)
-* Improve preprocessing (e.g. lemmatization, more advanced tokenization)
-* Use cross-validation, hyperparameter tuning
-* Expand dataset, support multilingual input
-* Deploy via containerization (Docker) or scalable cloud services
-* Add user interface improvements, streaming inference, etc.
+For contributions, issues, or suggestions, please raise an issue or pull request on GitHub.
 
-## Credits & Acknowledgments
+-------------------------------------------------------------
+License
+-------------------------------------------------------------
+This project is open-source under the MIT License.  
+You are free to use, modify, and distribute it with attribution.
 
-* Dataset sources
-* Any libraries / open-source components used (e.g. scikit-learn, transformers, Flask / FastAPI, Gradio)
-* Contributors and collaborators
-
-## License
-
-Specify your license (MIT, Apache, GPL, etc.) here.
-
-## Contact
-
-* Repository: [https://github.com/PriyanshuV17/Hate-Speech-Detection](https://github.com/PriyanshuV17/Hate-Speech-Detection)
-* Live App: [https://huggingface.co/spaces/PriyanshuV17/Hate_Speech_Classifier](https://huggingface.co/spaces/PriyanshuV17/Hate_Speech_Classifier)
-* API: [https://hate-speech-detection-1uqd.onrender.com](https://hate-speech-detection-1uqd.onrender.com)
-* For issues, contributions, or feedback, please open an issue or pull request.
-
-```
-
-If you like, I can generate a **README.md** version (with markdown formatting) and even push it to your repo — shall I do that for you?
-::contentReference[oaicite:0]{index=0}
-```
-Team
-CodeBros
+=============================================================
