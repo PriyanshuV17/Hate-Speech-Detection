@@ -1,53 +1,65 @@
+# ==========================
+# Hate Speech Detection: Gradio Web App
+# ==========================
 import os
 import joblib
 import gradio as gr
+import sys
 
-# Adjust paths if needed
-VECTORIZER_PATH = "tfidf_vectorizer.pkl"
-MODEL_PATH = "tfidf_logreg_model.pkl"
+# Ensure root path is accessible
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# If you have your own cleaner, import it:
-# from src.utils.text_cleaning import clean_text
-# For demo, define a simple cleaner:
-def clean_text(text: str) -> str:
-    return " ".join(text.lower().strip().split())
+from src.utils.config_loader import ConfigLoader
+from src.utils.helper import map_label
 
-# Load artifacts
-vectorizer = joblib.load(VECTORIZER_PATH)
-model = joblib.load(MODEL_PATH)
+# --------------------------
+# 1. Load Config and Artifacts
+# --------------------------
+config = ConfigLoader()
+processed = config.get_processed_data_paths()
+models = config.get_saved_model_paths()
+label_map = config.get_labels()
 
-# Label mapping (update to match your project)
-IDX_TO_LABEL = {
-    0: "Hate Speech",
-    1: "Offensive Language",
-    2: "Neither"
-}
+vectorizer = joblib.load(processed["tfidf_vectorizer"])
+model = joblib.load(models["baseline_model"])
 
+# --------------------------
+# 2. Prediction Function
+# --------------------------
 def predict_comment(comment: str):
     if not comment or not comment.strip():
         return "Please enter a non-empty comment.", None
-    cleaned = clean_text(comment)
-    X = vectorizer.transform([cleaned])
+
+    # Use raw text (no aggressive cleaning for multilingual support)
+    X = vectorizer.transform([comment])
     pred = model.predict(X)[0]
-    label = IDX_TO_LABEL.get(int(pred), str(pred))
-    # If available, add confidence
+    label = map_label(int(pred))
+
+    # Confidence scores (if available)
     try:
         proba = model.predict_proba(X)[0]
-        confidences = {IDX_TO_LABEL[i]: float(p) for i, p in enumerate(proba)}
+        confidences = {map_label(i): float(p) for i, p in enumerate(proba)}
     except Exception:
         confidences = None
+
     return label, confidences
 
+# --------------------------
+# 3. Gradio Interface
+# --------------------------
 with gr.Blocks() as demo:
-    gr.Markdown("# Hate Speech Comment Classification")
-    gr.Markdown("Enter a comment to classify. Outputs the predicted label and confidence.")
+    gr.Markdown("# 🌐 Hate Speech Comment Classification")
+    gr.Markdown("Enter a comment to classify. Outputs the predicted label and confidence scores.")
 
     inp = gr.Textbox(label="Comment", lines=3, placeholder="Type a comment...")
     btn = gr.Button("Classify")
-    out_label = gr.Textbox(label="Predicted label")
+    out_label = gr.Textbox(label="Predicted Label")
     out_conf = gr.JSON(label="Confidence (per class)")
 
     btn.click(predict_comment, inputs=inp, outputs=[out_label, out_conf])
 
+# --------------------------
+# 4. Launch App
+# --------------------------
 if __name__ == "__main__":
     demo.launch()
