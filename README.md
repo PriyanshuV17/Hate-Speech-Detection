@@ -29,33 +29,54 @@ Features
 -------------------------------------------------------------
 Repository Structure
 -------------------------------------------------------------
-data/
-  |—— labeled_data.csv -> Cleaned & labeled_dataset
-  |—— processed/ -> Preprocessed training/test data
 
-notebooks/
-  |—— 01_data_exploration.ipynb
-  |—— 02_preprocessing.ipynb
-  |—— 03_model_training.ipynb
-  |—— 04_evaluation.ipynb
+**data/**
+- `labeled_data.csv` - Cleaned & labeled dataset
+- `processed/` - Preprocessed training/test data
 
-src/
-  |—— preprocessing/ -> Text cleaning and preprocessing scripts
-  |—— models/ -> Training and evaluation scripts
-  |—— api/ -> Backend API scripts (Flask / FastAPI)
-  |—— utils/ -> Helper and utility functions
-  |—— init.py
+**notebooks/**
+- `01_data_exploration.ipynb`
+- `02_preprocessing.ipynb`
+- `03_model_training.ipynb`
+- `04_evaluation.ipynb`
 
-saved_models/
-  |—— tfidf_logreg_model.pki
-  |—— tfidf_vectorizer.pki
-  |—— bert_model/ (optional for future transformer models)
+**src/**
+- `preprocessing/` - Text cleaning and preprocessing scripts
+- `models/` - Training and evaluation scripts
+- `api/` - Backend API scripts (Flask / FastAPI)
+- `utils/` - Helper and utility functions
+- `__init__.py`
 
-config.yaml -> Configuration file
-requirements.txt -> Required dependencies
-main.py -> Main entry script
-.gitignore -> ignore unnecessary files
+**saved_models/**
+- `tfidf_logreg_model.pkl`
+- `tfidf_vectorizer.pkl`
+- `bert_model/` - Optional for future transformer models
 
+**Configuration Files**
+- `config.yaml` - Configuration file
+- `requirements.txt` - Required dependencies
+- `main.py` - Main entry script
+- `.gitignore` - Ignore unnecessary files
+
+---
+
+## Model Workflow
+
+### 1. Data Preprocessing
+- Tokenization, stopword removal, text normalization
+- Data cleaning and validation
+- Feature engineering
+
+### 2. Feature Extraction
+- TF-IDF vectorization
+- N-gram features
+- Text vectorization
+
+### 3. Model Training
+- Logistic Regression classifier
+- Model validation and testing
+- Performance evaluation
+- Model serialization
 -------------------------------------------------------------
 Model Workflow
 -------------------------------------------------------------
@@ -150,7 +171,7 @@ Tech Stack
 -------------------------------------------------------------
 Author
 -------------------------------------------------------------
-Developed by: ** Codebros**  
+Developed by: ** Codebros **  
 GitHub: https://github.com/PriyanshuV17/Hate-Speech-Detection  
 Hugging Face App: https://huggingface.co/spaces/PriyanshuV17/Hate_Speech_Classifier  
 API: https://hate-speech-detection-1uqd.onrender.com  
