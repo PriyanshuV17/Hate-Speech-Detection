@@ -5,3 +5,5 @@ numpy
 imbalanced-learn
 matplotlib
 joblib
+fastapi
+uvicorn
