@@ -150,7 +150,7 @@ Tech Stack
 -------------------------------------------------------------
 Author
 -------------------------------------------------------------
-Developed by: **Priyanshu Verma**  
+Developed by: ** Codebros**  
 GitHub: https://github.com/PriyanshuV17/Hate-Speech-Detection  
 Hugging Face App: https://huggingface.co/spaces/PriyanshuV17/Hate_Speech_Classifier  
 API: https://hate-speech-detection-1uqd.onrender.com  
